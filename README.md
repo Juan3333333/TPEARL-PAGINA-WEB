@@ -1,2 +1,2 @@
 # TPEARL-PAGINA WEB
-Aquí están los ficheros correspondientes de nuestra página web, están el HTML para la visualización, está también el CSS con el que hemos hecho la personalización y por último tenemos JAVA con el que hemos hecho las configuraciones que tiene la página web.
+En este repositorio se encuentra los ficheros correspondientes a nuestra página web que estamos haciendo uso, aqui se encuentra el html el cual esta dividido por secciones, tambien se encuentra la hoja css el cual como el html se encuentra dividido por secciones. Por ultimo se encutra tanto el fichero JAVA y sus configuraciones, como los PHP utilizados, con la intencion de cuando se creen usuarios, los datos se guarden en nuestra base de datos.
