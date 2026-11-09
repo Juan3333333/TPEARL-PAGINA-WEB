@@ -10,8 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const vistaPago = document.getElementById('vista-pago');
   const vistaAprobado = document.getElementById('vista-aprobado');
   const vistaPerfil = document.getElementById('vista-perfil');
+  const vistaConocenos = document.getElementById('vista-conocenos');
+  const vistaNotificaciones = document.getElementById('vista-notificaciones');
 
-  // Funcion para cambiar de vista ocultando las demas
+  // Función para cambiar de vista ocultando las demás
   function cambiarVista(vistaAMostrar) {
     document.querySelectorAll('.vista').forEach(v => v.classList.remove('active'));
     vistaAMostrar.classList.add('active');
@@ -21,19 +23,24 @@ document.addEventListener('DOMContentLoaded', () => {
   // 1. INTERACCIONES DESDE PAGINA PRINCIPAL
   // ==========================================
 
-  // Boton "Inicio sesion/Registrarse" -> Abre Inicio de Sesion
   document.getElementById('btn-login-reg').addEventListener('click', () => {
     cambiarVista(vistaLogin);
   });
 
-  // Boton "PERFIL" (barra superior) -> Abre Perfil
   document.getElementById('btn-perfil').addEventListener('click', () => {
     cambiarVista(vistaPerfil);
   });
 
-  // Boton "SUSCRIPCIONES" (menu inferior) -> Abre Plan Suscripciones
   document.getElementById('btn-suscripciones').addEventListener('click', () => {
     cambiarVista(vistaSuscripciones);
+  });
+
+  document.getElementById('btn-notificaciones').addEventListener('click', () => {
+    cambiarVista(vistaNotificaciones);
+  });
+
+  document.getElementById('btn-conocenos').addEventListener('click', () => {
+    cambiarVista(vistaConocenos);
   });
 
   // ==========================================
@@ -41,11 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
 
   document.getElementById('login-back').addEventListener('click', () => {
-    cambiarVista(vistaPrincipal);
-  });
-
-  document.getElementById('form-login').addEventListener('submit', (e) => {
-    e.preventDefault();
     cambiarVista(vistaPrincipal);
   });
 
@@ -62,11 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
     cambiarVista(vistaLogin);
   });
 
-  document.getElementById('form-register').addEventListener('submit', (e) => {
-    e.preventDefault();
-    cambiarVista(vistaLogin);
-  });
-
   document.getElementById('go-to-login').addEventListener('click', (e) => {
     e.preventDefault();
     cambiarVista(vistaLogin);
@@ -76,12 +73,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // 4. INTERACCIONES DESDE PLAN SUSCRIPCIONES
   // ==========================================
 
-  // Boton "Atras" -> Vuelve a Pagina Principal
   document.getElementById('suscripciones-back').addEventListener('click', () => {
     cambiarVista(vistaPrincipal);
   });
 
-  // Botones "Suscribirse" (en cualquiera de los 3 planes) -> Abre Pago
   document.querySelectorAll('.btn-suscribirse').forEach(btn => {
     btn.addEventListener('click', () => {
       cambiarVista(vistaPago);
@@ -92,18 +87,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // 5. INTERACCIONES DESDE PAGO Y APROBADO
   // ==========================================
 
-  // Boton "Cancelar" en Pago -> Regresa a Suscripciones
   document.getElementById('pago-cancelar').addEventListener('click', () => {
     cambiarVista(vistaSuscripciones);
   });
 
-  // Enviar formulario de Pago (Confirmar) -> Abre Aprobado
   document.getElementById('form-pago').addEventListener('submit', (e) => {
     e.preventDefault();
     cambiarVista(vistaAprobado);
   });
 
-  // Boton en Aprobado -> Regresa a Suscripciones
   document.getElementById('aprobado-back').addEventListener('click', () => {
     cambiarVista(vistaSuscripciones);
   });
@@ -112,8 +104,23 @@ document.addEventListener('DOMContentLoaded', () => {
   // 6. INTERACCIONES DESDE PERFIL
   // ==========================================
 
-  // Boton "Atras" -> Vuelve a Pagina Principal
   document.getElementById('perfil-back').addEventListener('click', () => {
+    cambiarVista(vistaPrincipal);
+  });
+
+  // ==========================================
+  // 7. INTERACCIONES DESDE CONOCENOS
+  // ==========================================
+
+  document.getElementById('conocenos-back').addEventListener('click', () => {
+    cambiarVista(vistaPrincipal);
+  });
+
+  // ==========================================
+  // 8. INTERACCIONES DESDE NOTIFICACIONES
+  // ==========================================
+
+  document.getElementById('notificaciones-back').addEventListener('click', () => {
     cambiarVista(vistaPrincipal);
   });
 

@@ -1,109 +1,104 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viweport" content="width=device-width", initial-scale="1.0">
-    <title>TPEARL</title>
-
-    <!-- VINCULAR HOJA DE ESTILOS CSS-->>
-    <link rel="stylesheet" href="pagina-web-css.css">
-
-    <!-- VINCULAR HOJA DE JAVA SCRIPT-->
-    <script src="pagina-web-java.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Seguridad y Ransomware</title>
+  <link rel="stylesheet" href="pagina-web-css.css">
 </head>
 <body>
 
-  <!-- 1. PAGINA PRINCIPAL-->
-
+  <!-- ========================================== -->
+  <!-- 1. VISTA PRINCIPAL                         -->
+  <!-- ========================================== -->
   <div id="vista-principal" class="vista active">
-    <!-- Encabezado / Navbar -->
-    <header class="navbar">
-      <button id="btn-login-reg" class="nav-btn">Inicio sesion/Registrarse</button>
-      <h1 class="project-title">Titulo del proyecto</h1>
-      <button id="btn-perfil" class="nav-btn">PERFIL</button>
+    <!-- Cabecera -->
+    <header>
+      <button id="btn-login-reg" class="btn-header">Inicio sesión/Registrarse</button>
+      <div class="header-title-box">Sistema de Seguridad</div>
+      <button id="btn-perfil" class="btn-header">PERFIL</button>
     </header>
 
-    <!-- Cuerpo Central -->
-    <main class="main-container">
-      <aside class="sidebar left-sidebar">
-        <div class="logo-box">LOGO</div>
-      </aside>
-
-      <section class="content-center">
-        <div class="card"></div>
-        <div class="card"></div>
+    <!-- Contenido Central: 3 Columnas -->
+    <main class="columnas-container">
+      <!-- Columna Izquierda -->
+      <section class="columna columna-lateral">
+        <h3>Panel Lateral</h3>
       </section>
 
-      <aside class="sidebar right-sidebar">
-        <div class="logo-box">LOGO</div>
-      </aside>
+      <!-- Columna Central (Dividida en 2 bloques) -->
+      <section class="columna-doble">
+        <div class="sub-columna bloque-superior"></div>
+        <div class="sub-columna bloque-inferior"></div>
+      </section>
+
+      <!-- Columna Derecha -->
+      <section class="columna columna-lateral">
+        <h3>Panel Lateral</h3>
+      </section>
     </main>
 
-    <!-- Menu Inferior / Footer -->
-    <footer class="bottom-nav">
-      <button id="btn-suscripciones" class="nav-btn-bottom">SUSCRIPCIONES</button>
-      <button id="btn-notificaciones" class="nav-btn-bottom">Notificaciones</button>
-      <button id="btn-conocenos" class="nav-btn-bottom">CONOCENOS</button>
+    <!-- Menu Inferior -->
+    <footer class="menu-inferior">
+      <button id="btn-suscripciones">SUSCRIPCIONES</button>
+      <button id="btn-notificaciones">Notificaciones</button>
+      <button id="btn-conocenos">CONOCENOS</button>
     </footer>
   </div>
 
-  <!-- 2. INICIO DE SESION-->
-
+  <!-- ========================================== -->
+  <!-- 2. VISTA INICIO DE SESION                  -->
+  <!-- ========================================== -->
   <div id="vista-login" class="vista">
-    <div class="auth-card">
-      <button id="login-back" class="btn-back">Atras</button>
-      <div class="auth-layout">
-        <div class="logo-side">
-          <div class="logo-box">LOGO</div>
+    <div class="login-card">
+      <button id="login-back" class="btn-back">← Atrás</button>
+      <h2>INICIO DE SESIÓN</h2>
+      <form id="form-login" action="login.php" method="POST">
+        <div class="form-group">
+          <label for="login-email">Correo electrónico:</label>
+          <input type="email" id="login-email" name="email" required placeholder="">
         </div>
-        <form class="form-side" id="form-login">
-          <h2>INICIO DE SESION</h2>
-          <div class="form-group">
-            <label for="login-email">Correo electronico / Usuario</label>
-            <input type="text" id="login-email" placeholder="Ingresa tu correo">
-          </div>
-          <div class="form-group">
-            <label for="login-pass">Contrasena</label>
-            <input type="password" id="login-pass" placeholder="Ingresa tu contrasena">
-          </div>
-          <button type="submit" class="btn-submit">INICIAR SESION</button>
-          <p class="link-text">¿No tienes una cuenta? <a href="#" id="go-to-register">Registrate aqui</a></p>
-        </form>
-      </div>
+        <div class="form-group">
+          <label for="login-password">Contraseña:</label>
+          <input type="password" id="login-password" name="password" required placeholder="">
+        </div>
+        <button type="submit" class="btn-submit">Entrar</button>
+      </form>
+      <p class="form-footer">
+        ¿No tienes cuenta? <a href="#" id="go-to-register">Regístrate aquí</a>
+      </p>
     </div>
   </div>
 
-  <!-- 3. REGISTRARSE-->
-
+  <!-- ========================================== -->
+  <!-- 3. VISTA REGISTRARSE                       -->
+  <!-- ========================================== -->
   <div id="vista-register" class="vista">
-    <div class="auth-card">
-      <button id="register-back" class="btn-back">Atras</button>
-      <div class="auth-layout">
-        <div class="logo-side">
-          <div class="logo-box">LOGO</div>
+    <div class="register-card">
+      <button id="register-back" class="btn-back">← Atrás</button>
+      <h2>REGISTRARSE</h2>
+      <form id="form-register" action="registro.php" method="POST">
+        <div class="form-group">
+          <label for="reg-dni">DNI / NIF:</label>
+          <input type="text" id="reg-dni" name="dni" required placeholder="">
         </div>
-        <form class="form-side" id="form-register">
-          <h2>REGISTRARSE</h2>
-          <div class="form-group">
-            <label for="reg-name">Nombre completo</label>
-            <input type="text" id="reg-name" placeholder="Tu nombre">
-          </div>
-          <div class="form-group">
-            <label for="reg-email">Correo electronico</label>
-            <input type="email" id="reg-email" placeholder="Tu correo">
-          </div>
-          <div class="form-group">
-            <label for="reg-pass">Contrasena</label>
-            <input type="password" id="reg-pass" placeholder="Tu contrasena">
-          </div>
-          <div class="form-group">
-            <label for="reg-confirm-pass">Confirmar contrasena</label>
-            <input type="password" id="reg-confirm-pass" placeholder="Repite tu contrasena">
-          </div>
-          <button type="submit" class="btn-submit">REGISTRARSE</button>
-          <p class="link-text">¿Ya tienes una cuenta? <a href="#" id="go-to-login">Inicia sesion aqui</a></p>
-        </form>
-      </div>
+        <div class="form-group">
+          <label for="reg-name">Nombre completo:</label>
+          <input type="text" id="reg-name" name="nombre" required placeholder="">
+        </div>
+        <div class="form-group">
+          <label for="reg-email">Correo electrónico:</label>
+          <input type="email" id="reg-email" name="email" required placeholder="">
+        </div>
+        <div class="form-group">
+          <label for="reg-password">Contraseña:</label>
+          <input type="password" id="reg-password" name="password" required placeholder="">
+        </div>
+        <button type="submit" class="btn-submit">Crear cuenta</button>
+      </form>
+      <p class="form-footer">
+        ¿Ya tienes cuenta? <a href="#" id="go-to-login">Inicia sesión aquí</a>
+      </p>
     </div>
   </div>
 
@@ -111,31 +106,32 @@
   <!-- 4. VISTA PLAN SUSCRIPCIONES                -->
   <!-- ========================================== -->
   <div id="vista-suscripciones" class="vista">
-    <div class="plans-container">
-      <header class="plans-header">
-        <button id="suscripciones-back" class="btn-back">Atras</button>
-        <h2>PLAN SUSCRIPCIONES</h2>
-      </header>
-      
-      <div class="plans-grid">
-        <!-- PLAN 1 -->
+    <div class="suscripciones-container">
+      <button id="suscripciones-back" class="btn-back">← Atrás</button>
+      <h2>PLANES DE SUSCRIPCIÓN</h2>
+      <div class="planes-container">
+        
         <div class="plan-card">
-          <h3>PLAN 1</h3>
-          <div class="plan-body"></div>
+          <h3>BÁSICO</h3>
+          <p class="precio"></p>
+          <ul></ul>
           <button class="btn-suscribirse">Suscribirse</button>
         </div>
-        <!-- PLAN 2 -->
-        <div class="plan-card">
-          <h3>PLAN 2</h3>
-          <div class="plan-body"></div>
+
+        <div class="plan-card destacado">
+          <h3>PREMIUM</h3>
+          <p class="precio"></p>
+          <ul></ul>
           <button class="btn-suscribirse">Suscribirse</button>
         </div>
-        <!-- PLAN 3 -->
+
         <div class="plan-card">
-          <h3>PLAN 3</h3>
-          <div class="plan-body"></div>
+          <h3>EMPRESA</h3>
+          <p class="precio"></p>
+          <ul></ul>
           <button class="btn-suscribirse">Suscribirse</button>
         </div>
+
       </div>
     </div>
   </div>
@@ -145,102 +141,115 @@
   <!-- ========================================== -->
   <div id="vista-pago" class="vista">
     <div class="pago-card">
-      <div class="pago-layout">
-        <div class="logo-side">
-          <div class="logo-box">LOGO</div>
+      <h2>PASARELA DE PAGO</h2>
+      <form id="form-pago">
+        <div class="form-group">
+          <label for="card-name">Nombre en la tarjeta:</label>
+          <input type="text" id="card-name" required placeholder="">
         </div>
-        <form class="form-side" id="form-pago">
-          <h2>DATOS DE PAGO</h2>
+        <div class="form-group">
+          <label for="card-number">Número de tarjeta:</label>
+          <input type="text" id="card-number" required placeholder="" maxlength="19">
+        </div>
+        <div class="form-row">
           <div class="form-group">
-            <label for="card-number">Numero de tarjeta</label>
-            <input type="text" id="card-number" placeholder="0000 0000 0000 0000">
+            <label for="card-exp">Caducidad:</label>
+            <input type="text" id="card-exp" required placeholder="MM/AA" maxlength="5">
           </div>
           <div class="form-group">
-            <label for="card-exp">Fecha de caducidad</label>
-            <input type="text" id="card-exp" placeholder="MM/AA">
+            <label for="card-cvv">CVV:</label>
+            <input type="password" id="card-cvv" required placeholder="" maxlength="4">
           </div>
-          <div class="form-group">
-            <label for="card-cvv">CVV</label>
-            <input type="password" id="card-cvv" placeholder="123">
-          </div>
-          
-          <div class="pago-buttons">
-            <button type="button" id="pago-cancelar" class="btn-cancelar">Cancelar</button>
-            <button type="submit" id="pago-confirmar" class="btn-submit">Confirmar</button>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div class="pago-buttons">
+          <button type="button" id="pago-cancelar" class="btn-cancelar">Cancelar</button>
+          <button type="submit" class="btn-submit">Confirmar Pago</button>
+        </div>
+      </form>
     </div>
   </div>
 
   <!-- ========================================== -->
-  <!-- 6. VISTA APROBADO                          -->
+  <!-- 6. VISTA COMPRA APROBADA                   -->
   <!-- ========================================== -->
   <div id="vista-aprobado" class="vista">
     <div class="aprobado-card">
-      <h2>Su compra se ha realizado correctamente</h2>
+      <div class="icon-success">✓</div>
+      <h2>PAGO APROBADO</h2>
+      <p>Tu suscripción ha sido procesada con éxito.</p>
       <button id="aprobado-back" class="btn-submit">Volver a Suscripciones</button>
     </div>
   </div>
 
   <!-- ========================================== -->
-  <!-- 7. VISTA PERFIL                  -->
+  <!-- 7. VISTA PERFIL                            -->
   <!-- ========================================== -->
   <div id="vista-perfil" class="vista">
     <div class="perfil-card">
-      <button id="perfil-back" class="btn-back">← Atras</button>
+      <button id="perfil-back" class="btn-back">← Atrás</button>
       <h2>MI PERFIL</h2>
       
-      <!-- Cabecera de Usuario -->
       <div class="perfil-header">
-        <div class="avatar-placeholder">LOGO</div>
+        <div class="avatar-placeholder">PERFIL</div>
         <div class="user-main-info">
-          <h3>Usuario Ejemplo</h3>
-          <span class="status-badge">Cuenta Activa</span>
-          <p class="user-since">Miembro desde: Enero 2026</p>
+          <h3 id="user-display-name">-</h3>
+          <span class="status-badge" id="user-status">Sin sesión activa</span>
         </div>
       </div>
 
-      <!-- Secciones de Datos -->
       <div class="perfil-sections">
-        
-        <!-- Bloque 1: Datos Personales -->
         <div class="perfil-box">
           <h4>Datos Personales</h4>
-          <p><strong>Nombre completo:</strong> Usuario Ejemplo</p>
-          <p><strong>Correo electronico:</strong> usuario@ejemplo.com</p>
-          <p><strong>Telefono:</strong> +34 600 000 000</p>
-          <p><strong>Direccion:</strong> Calle Principal 123, Barcelona</p>
+          <p><strong>DNI / NIF:</strong> <span id="user-dni">-</span></p>
+          <p><strong>Nombre completo:</strong> <span id="user-nombre">-</span></p>
+          <p><strong>Correo electrónico:</strong> <span id="user-email">-</span></p>
         </div>
 
-        <!-- Bloque 2: Suscripcion -->
         <div class="perfil-box">
-          <h4>Suscripcion y Pago</h4>
-          <p><strong>Plan actual:</strong> Plan Premium</p>
-          <p><strong>Estado del pago:</strong> Al dia</p>
-          <p><strong>Proxima renovacion:</strong> 15/11/2026</p>
-          <p><strong>Metodo de pago:</strong> Visa **** 4321</p>
+          <h4>Suscripción y Tarifa</h4>
+          <p><strong>Plan actual:</strong> <span id="user-plan">Ninguno</span></p>
         </div>
-
-        <!-- Bloque 3: Configuracion -->
-        <div class="perfil-box">
-          <h4>Configuracion de Cuenta</h4>
-          <p><strong>Notificaciones email:</strong> Activadas</p>
-          <p><strong>Idioma:</strong> Espanol</p>
-          <p><strong>Seguridad:</strong> Autenticacion en 2 pasos activa</p>
-        </div>
-
       </div>
 
-      <!-- Botones de Accion -->
       <div class="perfil-actions">
-        <button class="btn-submit">Editar Perfil</button>
-        <button class="btn-cancelar">Cerrar Sesion</button>
+        <button class="btn-cancelar" id="btn-logout">Cerrar Sesión</button>
       </div>
-
     </div>
   </div>
 
+  <!-- ========================================== -->
+  <!-- 8. VISTA CONÓCENOS                         -->
+  <!-- ========================================== -->
+  <div id="vista-conocenos" class="vista">
+    <div class="conocenos-card">
+      <button id="conocenos-back" class="btn-back">← Atrás</button>
+      <h2>CONÓCENOS</h2>
+      <div class="conocenos-content">
+        <div class="team-section">
+          <h3>Nuestro Equipo</h3>
+          <ul></ul>
+        </div>
 
+        <div class="contact-section">
+          <h3>Contacto</h3>
+          <p><strong>Correo electrónico:</strong> </p>
+          <p><strong>Teléfono:</strong> </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 9. VISTA NOTIFICACIONES                    -->
+  <!-- ========================================== -->
+  <div id="vista-notificaciones" class="vista">
+    <div class="notificaciones-card">
+      <button id="notificaciones-back" class="btn-back">← Atrás</button>
+      <h2>NOTIFICACIONES</h2>
+      <div class="notificaciones-list"></div>
+    </div>
+  </div>
+
+  <script src="pagina-web-java.js"></script>
 </body>
 </html>
