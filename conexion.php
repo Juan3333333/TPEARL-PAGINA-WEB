@@ -1,7 +1,7 @@
 <?php
 $host = "localhost";
 $user = "root";
-$password = ""; // Contraseña por defecto en XAMPP
+$password = "";
 $database = "seguridad_db";
 
 $conexion = new mysqli($host, $user, $password, $database);

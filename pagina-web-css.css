@@ -68,6 +68,7 @@ header {
   font-weight: bold;
   font-size: 0.9rem;
   border-radius: 2px;
+  color: black;
 }
 
 /* Columnas Desktop */
@@ -252,18 +253,24 @@ header {
   margin-bottom: 15px;
 }
 
-.status-badge {
+/* STATUS BADGE DINÁMICO */
+.status-badge.inactiva {
   background-color: #6c757d;
   color: white;
-  padding: 2px 8px;
-  font-size: 0.8rem;
+  padding: 4px 10px;
   border-radius: 4px;
+  font-size: 0.85rem;
 }
 
-/* ========================================== */
-/* MODO MÓVIL                                 */
-/* ========================================== */
+.status-badge.activa {
+  background-color: #28a745;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
 
+/* MODO MÓVIL */
 @media (max-width: 768px) {
   #vista-principal {
     height: auto;
