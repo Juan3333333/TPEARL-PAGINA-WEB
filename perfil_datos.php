@@ -1,48 +1,92 @@
 <?php
-session_start();
-header('Content-Type: application/json');
 require_once 'conexion.php';
 
-$respuesta = [
-    'logueado' => false,
-    'dni' => '-',
-    'nombre' => '-',
-    'email' => '-',
-    'plan_actual' => 'Ninguno',
-    'tiene_suscripcion' => false,
-    'notificacion' => null
-];
+header('Content-Type: application/json; charset=utf-8');
 
-if (isset($_SESSION['cliente_dni'])) {
-    $respuesta['logueado'] = true;
-    $dni = $_SESSION['cliente_dni'];
-    $respuesta['dni'] = $dni;
+$notificacion = $_SESSION['notificacion'] ?? null;
+unset($_SESSION['notificacion']);
 
-    $stmt = $conexion->prepare("SELECT nombre, email FROM Cliente WHERE dni = ?");
-    $stmt->bind_param("s", $dni);
-    $stmt->execute();
-    $res = $stmt->get_result();
-    if ($user = $res->fetch_assoc()) {
-        $respuesta['nombre'] = $user['nombre'];
-        $respuesta['email'] = $user['email'];
-    }
-    $stmt->close();
-
-    $stmt_sub = $conexion->prepare("SELECT t.nombre_tarifa FROM Suscripcion s JOIN Tarifa t ON s.id_tarifa = t.id_tarifa WHERE s.dni_cliente = ? AND s.estado = 'Activa'");
-    $stmt_sub->bind_param("s", $dni);
-    $stmt_sub->execute();
-    $res_sub = $stmt_sub->get_result();
-    if ($sub = $res_sub->fetch_assoc()) {
-        $respuesta['plan_actual'] = $sub['nombre_tarifa'];
-        $respuesta['tiene_suscripcion'] = true;
-    }
-    $stmt_sub->close();
-
-    if (isset($_SESSION['notificacion'])) {
-        $respuesta['notificacion'] = $_SESSION['notificacion'];
-        unset($_SESSION['notificacion']);
-    }
+if (!isset($_SESSION['dni'])) {
+    echo json_encode([
+        'logueado' => false,
+        'notificacion' => $notificacion,
+        'notificaciones' => []
+    ]);
+    exit;
 }
 
-echo json_encode($respuesta);
-?>
+$dni = $_SESSION['dni'];
+
+$stmtCliente = $pdo->prepare('SELECT dni, nombre, email, foto_perfil FROM Cliente WHERE dni = ? LIMIT 1');
+$stmtCliente->execute([$dni]);
+$cliente = $stmtCliente->fetch();
+
+if (!$cliente) {
+    session_destroy();
+    echo json_encode([
+        'logueado' => false,
+        'notificacion' => null,
+        'notificaciones' => []
+    ]);
+    exit;
+}
+
+// Si hay un aviso pendiente en sesión, guardarlo de forma persistente en la tabla Notificacion
+if ($notificacion !== null && trim($notificacion) !== '') {
+    $stmtInsNotif = $pdo->prepare('INSERT INTO Notificacion (dni, mensaje, leida) VALUES (?, ?, 0)');
+    $stmtInsNotif->execute([$dni, $notificacion]);
+}
+
+// Obtener historial persistente de notificaciones del cliente
+$stmtNotifs = $pdo->prepare('
+    SELECT id_notificacion, mensaje, leida, DATE_FORMAT(fecha, "%d/%m/%Y %H:%i") AS fecha
+    FROM Notificacion
+    WHERE dni = ?
+    ORDER BY id_notificacion DESC
+    LIMIT 30
+');
+$stmtNotifs->execute([$dni]);
+$notificaciones = $stmtNotifs->fetchAll();
+
+$stmtSusc = $pdo->prepare('
+    SELECT s.estado, s.fecha_inicio, t.plan, t.precio
+    FROM Suscripcion s
+    INNER JOIN Tarifa t ON s.id_tarifa = t.id_tarifa
+    WHERE s.dni = ? AND s.estado = "Activa"
+    LIMIT 1
+');
+$stmtSusc->execute([$dni]);
+$suscripcion = $stmtSusc->fetch();
+
+$stmtDisp = $pdo->prepare('
+    SELECT id_dispositivo AS id_equipo, nombre_equipo, sistema_operativo, inicio_sesion
+    FROM Dispositivo
+    WHERE dni = ?
+    ORDER BY id_dispositivo ASC
+');
+$stmtDisp->execute([$dni]);
+$dispositivos = $stmtDisp->fetchAll();
+
+$equipos = [];
+foreach ($dispositivos as $d) {
+    $equipos[] = [
+        'id_equipo' => $d['id_equipo'],
+        'nombre_equipo' => $d['nombre_equipo'],
+        'sistema_operativo' => $d['sistema_operativo'],
+        'estado' => 'Activo'
+    ];
+}
+
+echo json_encode([
+    'logueado' => true,
+    'dni' => $cliente['dni'],
+    'nombre' => $cliente['nombre'],
+    'email' => $cliente['email'],
+    'foto_perfil' => $cliente['foto_perfil'],
+    'tiene_suscripcion' => (bool)$suscripcion,
+    'plan_actual' => $suscripcion ? $suscripcion['plan'] : 'Ninguno',
+    'fecha_suscripcion' => $suscripcion ? $suscripcion['fecha_inicio'] : null,
+    'equipos' => $equipos,
+    'notificacion' => $notificacion,
+    'notificaciones' => $notificaciones
+]);

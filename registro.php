@@ -1,24 +1,35 @@
 <?php
 require_once 'conexion.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $dni = trim($_POST['dni']);
-    $nombre = trim($_POST['nombre']);
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
-
-    $password_hash = password_hash($password, PASSWORD_BCRYPT);
-
-    $stmt = $conexion->prepare("INSERT INTO Cliente (dni, nombre, email, password) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $dni, $nombre, $email, $password_hash);
-
-    if ($stmt->execute()) {
-        echo "<script>alert('Cliente registrado correctamente'); window.location.href='../HTML/pagina-web.html#vista-login';</script>";
-    } else {
-        echo "<script>alert('Error al registrar: El DNI o Email ya existe'); window.history.back();</script>";
-    }
-
-    $stmt->close();
-    $conexion->close();
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    redirigir();
 }
-?>
+
+$dni      = strtoupper(trim($_POST['dni'] ?? ''));
+$nombre   = trim($_POST['nombre'] ?? '');
+$email    = strtolower(trim($_POST['email'] ?? ''));
+$password = $_POST['password'] ?? '';
+
+if ($dni === '' || $nombre === '' || $email === '' || $password === '') {
+    $_SESSION['notificacion'] = 'Todos los campos son obligatorios.';
+    redirigir();
+}
+
+$stmt = $pdo->prepare('SELECT dni FROM Cliente WHERE dni = ? OR email = ? LIMIT 1');
+$stmt->execute([$dni, $email]);
+
+if ($stmt->fetch()) {
+    $_SESSION['notificacion'] = 'El DNI o correo electrónico ya está registrado.';
+    redirigir();
+}
+
+$hash = password_hash($password, PASSWORD_DEFAULT);
+$stmtInsert = $pdo->prepare('INSERT INTO Cliente (dni, nombre, email, password) VALUES (?, ?, ?, ?)');
+$stmtInsert->execute([$dni, $nombre, $email, $hash]);
+
+$_SESSION['dni'] = $dni;
+$_SESSION['nombre'] = $nombre;
+$_SESSION['email'] = $email;
+$_SESSION['notificacion'] = 'Cuenta creada correctamente.';
+
+redirigir('../HTML/index.html?vista=panel');

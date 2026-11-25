@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TPearl — Sistema de Seguridad y Ransomware</title>
+  <link rel="stylesheet" href="pagina-web-css.css?v=6">
+</head>
+<body>
+
+  <!-- ========================================== -->
+  <!-- 1. VISTA PRINCIPAL                         -->
+  <!-- ========================================== -->
+  <div id="vista-principal" class="vista active">
+    <!-- Cabecera -->
+    <header>
+      <div class="header-izquierda">
+        <div id="contenedor-btn-panel"></div>
+        <div id="contenedor-btn-auth">
+          <button id="btn-login-reg" class="btn-header">Inicio sesión/Registrarse</button>
+        </div>
+      </div>
+
+      <div class="header-centro">
+        <img src="LogoDefinitivo-removebg-preview.png" alt="Logo TPearl" class="header-logo">
+        <div class="header-title-box">Sistema de Seguridad</div>
+      </div>
+
+      <button id="btn-perfil" class="btn-header btn-secundario">PERFIL</button>
+    </header>
+
+    <!-- Contenido Central: 3 Columnas -->
+    <main class="columnas-container">
+      <!-- Columna Izquierda -->
+      <section class="columna columna-lateral">
+        <h3>Panel Lateral</h3>
+      </section>
+
+      <!-- Columna Central (Dividida en 2 bloques) -->
+      <section class="columna-doble">
+        <div class="sub-columna bloque-superior"></div>
+        <div class="sub-columna bloque-inferior"></div>
+      </section>
+
+      <!-- Columna Derecha -->
+      <section class="columna columna-lateral">
+        <h3>Panel Lateral</h3>
+      </section>
+    </main>
+
+    <!-- Menu Inferior -->
+    <footer class="menu-inferior">
+      <button id="btn-suscripciones">SUSCRIPCIONES</button>
+      <button id="btn-notificaciones">Notificaciones <span id="badge-notif"></span></button>
+      <button id="btn-conocenos">CONÓCENOS</button>
+    </footer>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 2. VISTA PANEL PRIVADO DE USUARIO          -->
+  <!-- ========================================== -->
+  <div id="vista-panel-usuario" class="vista">
+    <div class="panel-usuario-card">
+      <div class="panel-superior">
+        <button id="panel-usuario-back" class="btn-back">← Atrás</button>
+        <div class="panel-sesion">
+          <span class="estado-sesion">Sesión activa</span>
+          <a href="../PHP/logout.php" class="btn-cancelar btn-salir">Cerrar sesión</a>
+        </div>
+      </div>
+
+      <div class="panel-cabecera">
+        <div class="panel-usuario-datos">
+          <img src="LogoDefinitivo-removebg-preview.png" alt="Logo TPearl" class="panel-logo">
+          <div>
+            <h2>Panel de <span id="panel-user-nombre">-</span></h2>
+            <p>DNI: <strong id="panel-user-dni">-</strong> · Email: <strong id="panel-user-email">-</strong></p>
+          </div>
+        </div>
+
+        <div class="panel-licencia">
+          <small>PLAN ACTUAL</small>
+          <strong id="panel-user-plan">Ninguno</strong>
+          <span id="panel-user-fecha">-</span>
+        </div>
+      </div>
+
+      <div class="panel-cuerpo">
+        <div class="perfil-box">
+          <div class="fila-titulo">
+            <h4>Mis Equipos</h4>
+            <span class="etiqueta" id="panel-contador-equipos">0 equipos</span>
+          </div>
+
+          <div id="lista-equipos-privados" class="lista-equipos"></div>
+
+          <form action="../PHP/panel_acciones.php" method="POST" class="form-equipo">
+            <input type="hidden" name="accion" value="agregar_equipo">
+            <input type="text" name="nombre_equipo" required placeholder="Nombre del equipo">
+            <select name="sistema_operativo">
+              <option value="Windows 11">Windows 11</option>
+              <option value="Windows Server">Windows Server</option>
+              <option value="Linux">Linux</option>
+              <option value="macOS">macOS</option>
+            </select>
+            <button type="submit" class="btn-submit">Añadir</button>
+          </form>
+        </div>
+
+        <div class="perfil-box">
+          <h4>Acciones de Cuenta</h4>
+          <p><strong>Estado de suscripción:</strong> <span id="panel-estado-sub-texto">Inactiva</span></p>
+          <div class="acciones-vertical">
+            <button type="button" id="btn-panel-ir-planes" class="btn-header">Cambiar Plan</button>
+            <button type="button" id="btn-panel-ir-perfil" class="btn-header btn-secundario">Ver Perfil</button>
+            <a href="../PHP/logout.php" class="btn-cancelar">Cerrar Sesión</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 3. VISTA INICIO DE SESION                  -->
+  <!-- ========================================== -->
+  <div id="vista-login" class="vista">
+    <div class="login-card">
+      <button id="login-back" class="btn-back">← Atrás</button>
+      <h2>INICIO DE SESIÓN</h2>
+      <form id="form-login" action="../PHP/login.php" method="POST">
+        <div class="form-group">
+          <label for="login-email">Correo electrónico:</label>
+          <input type="email" id="login-email" name="email" required placeholder="">
+        </div>
+        <div class="form-group">
+          <label for="login-password">Contraseña:</label>
+          <input type="password" id="login-password" name="password" required placeholder="">
+        </div>
+        <button type="submit" class="btn-submit">Entrar</button>
+      </form>
+      <p class="form-footer">
+        ¿No tienes cuenta? <a href="#" id="go-to-register">Regístrate aquí</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 4. VISTA REGISTRARSE                       -->
+  <!-- ========================================== -->
+  <div id="vista-register" class="vista">
+    <div class="register-card">
+      <button id="register-back" class="btn-back">← Atrás</button>
+      <h2>REGISTRARSE</h2>
+      <form id="form-register" action="../PHP/registro.php" method="POST">
+        <div class="form-group">
+          <label for="reg-dni">DNI / NIF:</label>
+          <input type="text" id="reg-dni" name="dni" required placeholder="">
+        </div>
+        <div class="form-group">
+          <label for="reg-name">Nombre completo:</label>
+          <input type="text" id="reg-name" name="nombre" required placeholder="">
+        </div>
+        <div class="form-group">
+          <label for="reg-email">Correo electrónico:</label>
+          <input type="email" id="reg-email" name="email" required placeholder="">
+        </div>
+        <div class="form-group">
+          <label for="reg-password">Contraseña:</label>
+          <input type="password" id="reg-password" name="password" required placeholder="">
+        </div>
+        <button type="submit" class="btn-submit">Crear cuenta</button>
+      </form>
+      <p class="form-footer">
+        ¿Ya tienes cuenta? <a href="#" id="go-to-login">Inicia sesión aquí</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 5. VISTA PLAN SUSCRIPCIONES                -->
+  <!-- ========================================== -->
+  <div id="vista-suscripciones" class="vista">
+    <div class="suscripciones-container">
+      <button id="suscripciones-back" class="btn-back">← Atrás</button>
+      <h2>PLANES DE SUSCRIPCIÓN</h2>
+      <div class="planes-container">
+        
+        <form action="../PHP/suscribirse.php" method="POST" class="plan-card" data-plan="BÁSICO" data-precio="9.99€ / mes">
+          <input type="hidden" name="accion" value="suscribir">
+          <input type="hidden" name="id_tarifa" value="1">
+          <input type="hidden" name="titular_tarjeta" value="">
+          <input type="hidden" name="ultimos_digitos" value="">
+          <h3>BÁSICO</h3>
+          <p class="precio">9.99€ / mes</p>
+          <button type="submit" class="btn-suscribirse">Suscribirse</button>
+        </form>
+
+        <form action="../PHP/suscribirse.php" method="POST" class="plan-card destacado" data-plan="PREMIUM" data-precio="19.99€ / mes">
+          <input type="hidden" name="accion" value="suscribir">
+          <input type="hidden" name="id_tarifa" value="2">
+          <input type="hidden" name="titular_tarjeta" value="">
+          <input type="hidden" name="ultimos_digitos" value="">
+          <h3>PREMIUM</h3>
+          <p class="precio">19.99€ / mes</p>
+          <button type="submit" class="btn-suscribirse">Suscribirse</button>
+        </form>
+
+        <form action="../PHP/suscribirse.php" method="POST" class="plan-card" data-plan="EMPRESA" data-precio="29.99€ / mes">
+          <input type="hidden" name="accion" value="suscribir">
+          <input type="hidden" name="id_tarifa" value="3">
+          <input type="hidden" name="titular_tarjeta" value="">
+          <input type="hidden" name="ultimos_digitos" value="">
+          <h3>EMPRESA</h3>
+          <p class="precio">29.99€ / mes</p>
+          <button type="submit" class="btn-suscribirse">Suscribirse</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- VENTANA EMERGENTE PASARELA DE PAGO         -->
+  <!-- ========================================== -->
+  <div id="modal-pago" class="modal-pago-overlay" aria-hidden="true">
+    <div class="modal-pago-card">
+      <div class="modal-pago-header">
+        <div>
+          <span class="etiqueta">PAGO SEGURO SSL</span>
+          <h3>Pasarela de Pago</h3>
+        </div>
+        <div class="modal-pago-resumen">
+          <strong id="pago-plan-nombre">PLAN</strong>
+          <span id="pago-plan-precio">0.00€ / mes</span>
+        </div>
+      </div>
+
+      <form id="form-pago-tarjeta" autocomplete="off">
+        <div class="form-group">
+          <label for="tarjeta-titular">Titular de la tarjeta:</label>
+          <input type="text" id="tarjeta-titular" autocomplete="off" required placeholder="Nombre y apellidos">
+        </div>
+
+        <div class="form-group">
+          <label for="tarjeta-numero">Número de tarjeta:</label>
+          <input type="text" id="tarjeta-numero" inputmode="numeric" maxlength="19" autocomplete="off" required placeholder="0000 0000 0000 0000">
+        </div>
+
+        <div class="pago-fila-doble">
+          <div class="form-group">
+            <label for="tarjeta-caducidad">Caducidad (MM/AA):</label>
+            <input type="text" id="tarjeta-caducidad" inputmode="numeric" maxlength="5" autocomplete="off" required placeholder="MM/AA">
+          </div>
+
+          <div class="form-group">
+            <label for="tarjeta-cvv">Código CVV:</label>
+            <input type="password" id="tarjeta-cvv" inputmode="numeric" maxlength="4" autocomplete="new-password" required placeholder="123">
+          </div>
+        </div>
+
+        <p id="pago-error-msg" class="pago-error"></p>
+
+        <div class="modal-pago-botones">
+          <button type="button" id="btn-cancelar-pago" class="btn-cancelar">Cancelar</button>
+          <button type="submit" id="btn-aceptar-pago" class="btn-submit">Aceptar y Pagar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 6. VISTA PERFIL                            -->
+  <!-- ========================================== -->
+  <div id="vista-perfil" class="vista">
+    <div class="perfil-card">
+      <button id="perfil-back" class="btn-back">← Atrás</button>
+      <h2>MI PERFIL</h2>
+
+      <div class="perfil-header">
+        <div class="avatar-placeholder">
+          <img id="profile-avatar-img" src="LogoDefinitivo-removebg-preview.png" alt="Avatar TPearl" class="avatar-logo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+        </div>
+        <div class="user-main-info">
+          <h3 id="profile-name">-</h3>
+          <span id="profile-status" class="status-badge inactiva">Sin sesión activa</span>
+
+          <form id="form-foto-perfil" action="../PHP/subir_foto.php" method="POST" enctype="multipart/form-data" style="display: none; margin-top: 10px;">
+            <label for="input-foto-perfil" class="btn-header btn-secundario" style="cursor: pointer; display: inline-block; font-size: 0.85rem;">
+              Cambiar foto de perfil
+            </label>
+            <input type="file" id="input-foto-perfil" name="foto_perfil" accept="image/png, image/jpeg, image/webp" style="display: none;">
+          </form>
+        </div>
+      </div>
+
+      <div class="perfil-sections">
+        <div class="perfil-box">
+          <h4>Datos Personales</h4>
+          <p><strong>DNI / NIF:</strong> <span id="profile-dni">-</span></p>
+          <p><strong>Nombre completo:</strong> <span id="profile-fullname">-</span></p>
+          <p><strong>Correo electrónico:</strong> <span id="profile-email">-</span></p>
+        </div>
+
+        <div class="perfil-box">
+          <h4>Suscripción y Tarifa</h4>
+          <p><strong>Plan actual:</strong> <span id="profile-plan">Ninguno</span></p>
+          <div id="contenedor-cancelar-sub"></div>
+        </div>
+      </div>
+
+      <div class="perfil-actions" id="contenedor-acciones-perfil"></div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 7. VISTA CONÓCENOS                         -->
+  <!-- ========================================== -->
+  <div id="vista-conocenos" class="vista">
+    <div class="conocenos-card">
+      <button id="conocenos-back" class="btn-back">← Atrás</button>
+      <h2>CONÓCENOS</h2>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 8. VISTA NOTIFICACIONES                    -->
+  <!-- ========================================== -->
+  <div id="vista-notificaciones" class="vista">
+    <div class="notificaciones-card">
+      <button id="notificaciones-back" class="btn-back">← Atrás</button>
+      <h2>NOTIFICACIONES</h2>
+      <div class="notificaciones-list" id="lista-notificaciones">
+        <p>No tienes notificaciones pendientes.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="pagina-web-java.js?v=7"></script>
+</body>
+</html>
